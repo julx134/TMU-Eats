@@ -6,6 +6,8 @@ function App() {
     <Router>
       <Routes>
         <Route path ="/" element = {<LoginPage/>}/>
+        <Route path ="/cart" element = {<LoginPage/>}/>
+        <Route path ="/home" element = {<LoginPage/>}/>
       </Routes>
     </Router>
   );

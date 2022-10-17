@@ -1,11 +1,11 @@
 import logo from '../logo.svg';
 import '../App.css'
 
-const LoginPage = () => {
+const Cart = () => {
     return (
         <div className="App">
             <header className="App-header">
-                <p>This is loginpage</p>
+                <p>This is cart page</p>
             </header>
         </div>
     );
@@ -13,4 +13,4 @@ const LoginPage = () => {
 };
 
 
-export default LoginPage
+export default Cart
