@@ -7,3 +7,5 @@ To start the project:
   npm -v <br />
 3) cd into tmu-eats/ 
 4) type npm start
+Append "/home" for homepage dev
+Append "/cart" for cart page dev

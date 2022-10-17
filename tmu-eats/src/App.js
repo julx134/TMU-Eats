@@ -1,13 +1,15 @@
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom"
 import LoginPage from "../src/login-flow/LoginPage"
+import Cart from "../src/item-flow/Cart"
+import HomePage from "../src/home-flow/HomePage"
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path ="/" element = {<LoginPage/>}/>
-        <Route path ="/cart" element = {<LoginPage/>}/>
-        <Route path ="/home" element = {<LoginPage/>}/>
+        <Route path ="/cart" element = {<Cart/>}/>
+        <Route path ="/home" element = {<HomePage/>}/>
       </Routes>
     </Router>
   );
