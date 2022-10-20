@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route} from "react-router-dom"
 import LoginPage from "../src/login-flow/LoginPage"
 import Cart from "../src/item-flow/Cart"
 import HomePage from "../src/home-flow/HomePage"
+import "antd/dist/antd.min.css"
 
 function App() {
   return (
