@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
 import { Row, Col } from "antd";
-import Graphic from './components/Graphic'
-import LoginModule from './components/LoginModule'
-import "../App.css";
-
+import Graphic from "./components/Graphic";
+import LoginModule from "./components/LoginModule";
+import "antd/dist/antd.min.css";
 
 const LoginPage = () => {
-
   return (
     <div className="home">
       <Row
@@ -26,7 +24,7 @@ const LoginPage = () => {
           <Row>
             <Col xs={0} md={2}></Col>
             <Col xs={24} md={20}>
-                <LoginModule/>
+              <LoginModule />
             </Col>
             <Col xs={0} md={2}></Col>
           </Row>

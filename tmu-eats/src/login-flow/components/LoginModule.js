@@ -1,79 +1,119 @@
-import React, { useState } from "react";
-import { Card, Form, Select, Button, Input, message, Space } from "antd";
-const NORMAL_STATE = "normal";
-const CHECK_RESPONSE_STATE = "check";
-const CONTACT_STATE = "contact";
-const WAITING_STATE = "wait";
+import React, { useState, useEffect } from "react";
+import { Card, Form, Button, Input, Checkbox } from "antd";
+import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import "antd/dist/antd.min.css";
 
 const LoginModule = () => {
-  const [chatState, setChatState] = useState(NORMAL_STATE);
-  const [conversationDetails, setConversationDetails] = useState({});
-  const [queries, setQueries] = useState([]);
-  const [showForm, setShowForm] = useState(true);
-  const [convo, setConvo] = useState([]);
-  const [value, setValue] = useState("");
+  const navigate = useNavigate();
 
-    const handleLogin = async () => {
-        console.log('pressed');
+  const onFinish = (values) => {
+    console.log("Received values of form: ", values);
+  };
+
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id:
+        "227140293213-9cljm3o56aknvjk0ucmnocm78inn20pl.apps.googleusercontent.com",
+      callback: handleResponse,
+    });
+
+    google.accounts.id.renderButton(document.getElementById("loginButton"), {
+      theme: "filled_blue",
+      size: "large",
+    });
+  }, []);
+
+  function handleResponse(response) {
+    const user = jwt_decode(response.credential);
+    console.log(user.email_verified);
+    if (user.email_verified === true) {
+      navigate("/home");
     }
+  }
 
-    return (
-      <Card
-        title="Hello, ask me a question!"
-        className="elevated rounded"
-        bodyStyle={{ minHeight: "70vh" }}
-        footer={null}
-      >
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <Form
-            name="basic"
-            labelCol={{ span: 6 }}
-            wrapperCol={{ span: 18 }}
-            initialValues={{ remember: true }}
-            onFinish={handleLogin}
-            onFinishFailed={() => {}}
-            autoComplete="off"
+  return (
+    <Card
+      title="Login with your account"
+      className="elevated rounded"
+      bodyStyle={{ minHeight: "70vh" }}
+      footer={null}
+    >
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <Form
+          name="normal_login"
+          className="login-form"
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={onFinish}
+        >
+          <Form.Item
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: "Please input your Username!",
+              },
+            ]}
           >
-            <div style = {{display: "flex", flexDirection: "column", paddingTop: "10vh"}}>
-                <Form.Item
-                label="Student ID"
-                name="student_id"
-                rules={[{ required: true, message: "Please input your student id" }]}
-                >
-                <Input />
-                </Form.Item>
-                <Form.Item
-                label="First Name"
-                name="firstname"
-                rules={[{ required: true, message: "Please input your first name" }]}
-                >
-                <Input />
-                </Form.Item>
-                <Form.Item
-                label="Last Name"
-                name="lastname"
-                rules={[{ required: true, message: "Please input your last name" }]}
-                >
-                <Input />
-                </Form.Item>
-                <Form.Item
-                label="TMU Email"
-                name="email"
-                rules={[{ required: true, message: "Please input your official school email" }]}
-                >
-                <Input />
-                </Form.Item>
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              placeholder="Username"
+            />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your Password!",
+              },
+            ]}
+          >
+            <Input
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Form.Item name="remember" valuePropName="checked" noStyle>
+              <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+          </Form.Item>
 
-                <Form.Item wrapperCol={{ offset: 10, span: 24 }}>
-                <Button type="primary" htmlType="submit" style={{borderRadius: "5px"}}>
-                    Login
-                </Button>
-                </Form.Item>
+          <Form.Item>
+            <center>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="login-form-button"
+                style={{
+                  width: "100%",
+                  height: "4vh",
+                  backgroundColor: "#1a72ee",
+                }}
+              >
+                <h4 style={{ color: "#FFFFFF" }}>Log in</h4>
+              </Button>
+            </center>
+
+            <div style={{ marginTop: "1vh", marginBottom: "1vh" }}>
+              <center>
+                <h3>Or</h3>
+              </center>
             </div>
-          </Form>
-        </div>
-      </Card>
-    );
+            <center>
+              <div id="loginButton"></div>
+            </center>
+          </Form.Item>
+        </Form>
+      </div>
+    </Card>
+  );
 };
 
 export default LoginModule;
