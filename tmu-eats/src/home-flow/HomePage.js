@@ -20,7 +20,7 @@ const HomePage = () => {
                         </div>
                     </div>
                     <div className="quizbox">
-                        <span class="span_topleft">Can't Decide?</span>
+                        <center><span class="span_topleft">Can't Decide?</span></center>
                         <span class="span_center">Take Our Food Quiz! &#x2794;</span>
                     </div>
                     <div class="categories">
