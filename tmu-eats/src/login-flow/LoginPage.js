@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Row, Col } from "antd";
 import Graphic from './components/Graphic'
+import LoginModule from './components/LoginModule'
 import "../App.css";
 
 
@@ -18,14 +19,14 @@ const LoginPage = () => {
           marginBottom: "20vh",
         }}
       >
-        <Col xs={24} md={12}>
+        <Col xs={24} md={14}>
           <Graphic />
         </Col>
-        <Col xs={24} md={12}>
+        <Col xs={24} md={10}>
           <Row>
             <Col xs={0} md={2}></Col>
             <Col xs={24} md={20}>
-                <Graphic/>
+                <LoginModule/>
             </Col>
             <Col xs={0} md={2}></Col>
           </Row>

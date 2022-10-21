@@ -36,12 +36,11 @@ const Graphic = () => {
             }}
           >
             <Space size={width >= 768 ? "large" : "small"} direction={width >= 768 ? "horizontal" : "vertical"}>
-              <Image width={200} src={Logo} preview={false} />
-              <Image width={200} src={TMU} preview={false} />
+            <Image width={200} src={TMU} preview={false} />
+            <h1 style={{ fontSize: 60, fontWeight: 800, letterSpacing: 1, marginTop: 40, }}>TMU Eats</h1>
             </Space>
           </Col>
         </Row>
-        <h1 style={{ fontSize: 60, fontWeight: 800, letterSpacing: 1, marginTop: 20 }}>TMU Eats</h1>
         <h4>
           A web-based resource for first year engineering students. This tool is available to you 24 hours a day, 7 days
           a week, and 365 days a year
