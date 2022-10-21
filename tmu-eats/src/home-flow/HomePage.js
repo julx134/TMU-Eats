@@ -5,7 +5,7 @@ const HomePage = () => {
         <div className="App">
             <header className="App-header">
                 <div className="fixed-header">
-                    <img src="../../public/TMU-logo.png" alt ="TMU Logo" width="200" height="100"/>
+                    <img src="../TMU-logo.png" alt ="TMU Logo" width="200" height="100"/>
                     <h1>Eats</h1>
                 </div>
                 <div className="category-bar">
