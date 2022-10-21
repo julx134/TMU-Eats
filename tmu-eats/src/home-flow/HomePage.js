@@ -6,7 +6,11 @@ const HomePage = () => {
             <header className="App-header">
                 <div className="fixed-header">
                     <img src="../TMU-logo.png" alt ="TMU Logo" width="250" height="100"/>
-                    <title>Eats</title>
+                </div>
+
+                <div className="quizbox">
+                    <span class="span_topleft">Can't Decide?</span>
+                    <span class="span_center">Take Our Food Quiz! &#x2794;</span>
                 </div>
             </header>
         </div>

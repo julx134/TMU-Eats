@@ -48,3 +48,37 @@
   text-align: left;
   display: inline-flex;
 }
+
+.quizbox {
+  color: #002D72;
+  font-size: calc(20px + 2vmin);
+  border-radius: 15px 50px;
+  border-color: #002D72;
+  border-style: solid;
+  position: absolute;
+  top: 600px;
+  border: #002D72;
+  background: #999999;
+  padding: 20px;
+  width: 35%;
+  height: 150px;
+  font-weight: bold;
+}
+
+.span_center {
+  line-height: 150px;
+  font-size: calc(25px + 2vmin);
+  position: relative;
+  text-align: center;
+  font-weight: bold;
+}
+
+
+.span_topleft {
+  color: #f8f8f8;
+  font-size: calc(5px + 2vmin);
+  font-weight: bold;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
