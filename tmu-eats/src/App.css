@@ -141,6 +141,25 @@
   font-weight: bold;
 }
 
+.restaurants{
+  position:absolute;
+  top:250px;
+  width: 80%;
+  height:300px;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.restaurantname{
+  background-color: #999999;
+  width:250px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
 .span_center {
   line-height: 150px;
   font-size: calc(25px + 2vmin);

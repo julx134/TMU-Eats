@@ -1,4 +1,7 @@
 import '../App.css'
+import mcd from './assets/mcd.png'
+import timhorton from './assets/TimHorton.png'
+import subway from './assets/subway.png'
 
 const HomePage = () => {
     return (    
@@ -28,6 +31,21 @@ const HomePage = () => {
                         <a href="#" class="nav5">Fast Food</a>
                     </div> 
                 </div>
+                <div className="restaurants">
+                    <div className="restaurantname">
+                        <img src={mcd} alt ="McDonalds Logo" width="250" height="150"/>
+                        <h3>15 minutes</h3>
+                    </div>
+                    <div className="restaurantname">
+                        <img src={timhorton} alt ="Tim Hortons Logo" width="250" height="150"/>
+                        <h3>5 minutes</h3>
+                    </div>
+                    <div className="restaurantname">
+                        <img src={subway} alt ="Subway Logo" width="250" height="150"/>
+                        <h3>10 minutes</h3>
+                    </div>
+                </div>
+                
             </header>
         </div>
     );
