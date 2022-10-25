@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Row, Col } from "antd";
 import Graphic from "./components/Graphic";
 import LoginModule from "./components/LoginModule";
