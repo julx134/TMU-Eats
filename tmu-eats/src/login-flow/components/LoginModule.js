@@ -1,38 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { Card, Form, Button, Input, Checkbox } from "antd";
 import { useNavigate } from "react-router-dom";
-import jwt_decode from "jwt-decode";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  auth,
+  logInWithEmailAndPassword,
+  signInWithGoogle,
+  logout,
+} from "../../api/Firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 import "antd/dist/antd.min.css";
 
 const LoginModule = () => {
   const navigate = useNavigate();
+  const [user, loading, error] = useAuthState(auth);
 
+  //for login form
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+    logInWithEmailAndPassword(values.email, values.password);
   };
 
+  //for login with google
   useEffect(() => {
-    /* global google */
-    google.accounts.id.initialize({
-      client_id:
-        "227140293213-9cljm3o56aknvjk0ucmnocm78inn20pl.apps.googleusercontent.com",
-      callback: handleResponse,
-    });
+    if (loading) return;
 
-    google.accounts.id.renderButton(document.getElementById("loginButton"), {
-      theme: "filled_blue",
-      size: "large",
-    });
-  }, []);
-
-  function handleResponse(response) {
-    const user = jwt_decode(response.credential);
-    console.log(user.email_verified);
-    if (user.email_verified === true) {
-      navigate("/home");
-    }
-  }
+    if (user) navigate("/home");
+  }, [user, loading]);
 
   return (
     <Card
@@ -51,17 +44,17 @@ const LoginModule = () => {
           onFinish={onFinish}
         >
           <Form.Item
-            name="username"
+            name="email"
             rules={[
               {
                 required: true,
-                message: "Please input your Username!",
+                message: "Please input your TMU email!",
               },
             ]}
           >
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Username"
+              placeholder="Email"
             />
           </Form.Item>
           <Form.Item
@@ -93,11 +86,11 @@ const LoginModule = () => {
                 className="login-form-button"
                 style={{
                   width: "100%",
-                  height: "4vh",
+                  height: "5vh",
                   backgroundColor: "#1a72ee",
                 }}
               >
-                <h4 style={{ color: "#FFFFFF" }}>Log in</h4>
+                <h4 style={{ color: "#FFFFFF", paddingTop: "5px" }}>Log in</h4>
               </Button>
             </center>
 
@@ -107,7 +100,20 @@ const LoginModule = () => {
               </center>
             </div>
             <center>
-              <div id="loginButton"></div>
+              <Button
+                type="primary"
+                className="login-form-button"
+                style={{
+                  width: "100%",
+                  height: "5vh",
+                  backgroundColor: "#1a72ee",
+                }}
+                onClick={signInWithGoogle}
+              >
+                <h4 style={{ color: "#FFFFFF", paddingTop: "5px" }}>
+                  Sign in with Google
+                </h4>
+              </Button>
             </center>
           </Form.Item>
         </Form>
