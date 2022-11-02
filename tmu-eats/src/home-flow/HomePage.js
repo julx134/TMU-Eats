@@ -6,7 +6,7 @@ import saladking from "./assets/saladking2.png";
 import blaze from "./assets/blazepizza.jpg";
 import burritoboyz from "./assets/burritoboyz.png";
 import springsushi from "./assets/springsushi.png";
-import villamadina from "./assets/villamadina.png";
+import villamadina from "./assets/villamadina.JPG";
 import "./assets/Carousel.css";
 
 const HomePage = () => {
