@@ -90,7 +90,7 @@
     flex-direction: row;
     justify-content: space-around;
   }
-  
+
   .carousel__viewport {
     position: absolute;
     top: 0;
