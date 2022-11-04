@@ -114,7 +114,6 @@ const HomePage = () => {
             <a href="#" class="nav5">Fast Food</a>
           </div>
         </div>
-
         <section class="carousel" aria-label="Gallery">
             <ol  class="carousel__viewport">
               <li id="carousel__slide1"c tabindex="0" class="carousel__slide">

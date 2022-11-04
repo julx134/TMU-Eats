@@ -346,6 +346,11 @@ textarea.ant-input {
   transition: 0.5s;
 }
 
+.restaurantname:hover {
+  background-color: #ddd;
+  transition: 0.5s;
+}
+
 .quizbox {
   color: #002D72;
   font-size: calc(20px + 2vmin);
