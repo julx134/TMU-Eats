@@ -15,7 +15,10 @@ import {
   collection,
   where,
   addDoc,
+  getDoc,
+  doc,
 } from "firebase/firestore";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAYa6kBVdSja_AgTSzVzekC0Pul7u-7NvE",
   authDomain: "tmu-eats.firebaseapp.com",
@@ -24,6 +27,7 @@ const firebaseConfig = {
   messagingSenderId: "875772432483",
   appId: "1:875772432483:web:f8dea098c129eff6fbe856",
 };
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -48,6 +52,13 @@ const signInWithGoogle = async () => {
     console.error("This is an error: " + err);
     alert(err.message);
   }
+};
+
+const getRest = async (restName) =>{
+  const data = doc(db,"restaurants",restName);
+  const snap = await getDoc(data);
+  console.log(snap.data());
+
 };
 
 const logInWithEmailAndPassword = async (email, password) => {
@@ -97,4 +108,5 @@ export {
   registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
+  getRest,
 };

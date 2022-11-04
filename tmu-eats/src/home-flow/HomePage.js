@@ -2,8 +2,10 @@ import "../App.css";
 import mcd from "./assets/mcd.png";
 import timhorton from "./assets/TimHorton.png";
 import subway from "./assets/subway.png";
+import { getRest } from "../api/Firebase";
 
 const HomePage = () => {
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -42,11 +44,11 @@ const HomePage = () => {
           </div>
         </div>
         <div className="restaurants">
-          <div className="restaurantname">
+          <div className="restaurantname" onClick= {() => getRest("mcdonalds")}>
             <img src={mcd} alt="McDonalds Logo" width="250" height="150" />
             <h3>15 minutes</h3>
           </div>
-          <div className="restaurantname">
+          <div className="restaurantname" onClick= {() => getRest("tim hortons")} >
             <img
               src={timhorton}
               alt="Tim Hortons Logo"
@@ -55,7 +57,7 @@ const HomePage = () => {
             />
             <h3>5 minutes</h3>
           </div>
-          <div className="restaurantname">
+          <div className="restaurantname" onClick= {() => getRest("subway")}>
             <img src={subway} alt="Subway Logo" width="250" height="150" />
             <h3>10 minutes</h3>
           </div>
