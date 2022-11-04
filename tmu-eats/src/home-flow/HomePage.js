@@ -13,9 +13,11 @@ import { collection, getDocs} from "firebase/firestore";
 
 
 const HomePage = () => {
+  const menuitems=[]
+  const cartitems=[]
+
 
   async function handleClick(name) {
-    const menuitems=[]
     
     document.getElementById("rest-name").innerHTML=name;
     
@@ -25,7 +27,7 @@ const HomePage = () => {
         let json = doc.data();
         let menuarray = Object.keys(json);
         
-        console.log(menuarray)
+        console.log("Menu Array: "+menuarray)
         for(let k in menuarray){
           if (menuarray[k]!="Cuisine"  && menuarray[k]!="Delivery Time"){
             menuitems.push(menuarray[k]);
@@ -35,7 +37,6 @@ const HomePage = () => {
     });
     for (let x in menuitems){
       var restaurantid="rest-item-"+x;
-      console.log(restaurantid);
       document.getElementById(restaurantid).innerHTML=menuitems[x];
     }
     
@@ -63,6 +64,26 @@ const HomePage = () => {
         modal.style.display = "none";
       }
     }
+  }
+
+  function addToCart(){
+    var box1= document.getElementById("selected1");
+    var box2= document.getElementById("selected2");
+    var box3= document.getElementById("selected3");
+    if(box1.checked){
+      cartitems.push(menuitems[0]);
+
+    }
+    if(box2.checked){
+      cartitems.push(menuitems[1]);
+
+
+    }
+    if(box3.checked){
+      cartitems.push(menuitems[2]);
+    }
+    console.log(cartitems);
+
   }
 
   return (
@@ -245,11 +266,11 @@ const HomePage = () => {
             <span class="close">&times;</span>
             <h1 id="rest-name">Restaurant Name</h1>
             <ul class="menu-items">
-              <li id="rest-item-0">Item 1</li>
-              <li id="rest-item-1">Item 2</li>
-              <li id="rest-item-2">Item 3</li>
+              <li id="rest-item-0">Item 1 </li> <input id="selected1" type="checkbox"/>
+              <li id="rest-item-1">Item 2</li> <input id ="selected2" type="checkbox"/>
+              <li id="rest-item-2">Item 3</li> <input id="selected3" type="checkbox"/>
             </ul>
-            <button>Add to Cart</button>
+            <button onClick={()=>addToCart()} >Add to Cart</button>
           </div>
         </div>
       </header>
