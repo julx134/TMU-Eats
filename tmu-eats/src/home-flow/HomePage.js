@@ -8,11 +8,38 @@ import burritoboyz from "./assets/burritoboyz.png";
 import springsushi from "./assets/springsushi.png";
 import villamadina from "./assets/villamadina.JPG";
 import "./assets/Carousel.css";
+import {db} from "../api/Firebase";
+import { collection, getDocs} from "firebase/firestore";
 
 
 const HomePage = () => {
 
-  const handleClick = () => {
+  async function handleClick(name) {
+    const menuitems=[]
+    
+    document.getElementById("rest-name").innerHTML=name;
+    
+    const querySnapshot = await getDocs(collection(db, "restaurants"));
+    querySnapshot.forEach((doc) => {
+      if(doc.id==name){
+        let json = doc.data();
+        let menuarray = Object.keys(json);
+        
+        console.log(menuarray)
+        for(let k in menuarray){
+          if (menuarray[k]!="Cuisine"  && menuarray[k]!="Delivery Time"){
+            menuitems.push(menuarray[k]);
+          }
+        }
+      }
+    });
+    for (let x in menuitems){
+      var restaurantid="rest-item-"+x;
+      console.log(restaurantid);
+      document.getElementById(restaurantid).innerHTML=menuitems[x];
+    }
+    
+    
     // Get the modal
     var modal = document.getElementById("menuModal");
 
@@ -71,7 +98,7 @@ const HomePage = () => {
             <ol  class="carousel__viewport">
               <li id="carousel__slide1"c tabindex="0" class="carousel__slide">
                 <div class="carousel__snapper">
-                  <img onClick={handleClick} src={subway} alt="Subway Logo" width="350" height="200"/>
+                  <img onClick={() => handleClick("Subway")} src={subway} alt="Subway Logo" width="350" height="200"/>
                   <div class="time_container">
                     <h3>Estimated Time: 10 min</h3>
                   </div>
@@ -84,7 +111,7 @@ const HomePage = () => {
 
               <li id="carousel__slide2" tabindex="0" class="carousel__slide">
                 <div class="carousel__snapper">
-                  <img onClick={handleClick} src={mcd} alt="McDonald Logo" width="350" height="200"/>
+                  <img onClick={() => handleClick("McDonald's")} src={mcd} alt="McDonald Logo" width="350" height="200"/>
                   <div class="time_container">
                     <h3>Estimated Time: 15 min</h3>
                   </div>
@@ -97,7 +124,7 @@ const HomePage = () => {
 
               <li id="carousel__slide3"tabindex="0"class="carousel__slide">
                 <div class="carousel__snapper">
-                  <img onClick={handleClick} src={timhorton} alt="Tim Hortons Logo" width="350" height="200"/>
+                  <img onClick={() => handleClick("Tim Hortons")} src={timhorton} alt="Tim Hortons Logo" width="350" height="200"/>
                   <div class="time_container">
                     <h3>Estimated Time: 5 min</h3>
                   </div>
@@ -110,7 +137,7 @@ const HomePage = () => {
 
               <li id="carousel__slide4" tabindex="0"class="carousel__slide">
                 <div class="carousel__snapper">
-                  <img onClick={handleClick} src={saladking} alt="Salad King Logo" width="300" height="200"/>
+                  <img onClick={() => handleClick("Salad King")} src={saladking} alt="Salad King Logo" width="300" height="200"/>
                   <div class="time_container">
                     <h3>Estimated Time: 20 min</h3>
                   </div>
@@ -123,7 +150,7 @@ const HomePage = () => {
 
               <li id="carousel__slide5" tabindex="0"class="carousel__slide">
               <div class="carousel__snapper">
-                <img onClick={handleClick} src={blaze} alt="Blaze Pizza Logo" width="300" height="200"/>
+                <img onClick={() => handleClick("Blaze Pizza")} src={blaze} alt="Blaze Pizza Logo" width="300" height="200"/>
                 <div class="time_container">
                   <h3>Estimated Time: 20 min</h3>
                 </div>
@@ -136,7 +163,7 @@ const HomePage = () => {
 
               <li id="carousel__slide6" tabindex="0"class="carousel__slide">
                 <div class="carousel__snapper">
-                  <img onClick={handleClick} src={burritoboyz} alt="Burrito Boyz Logo" width="300" height="200"/>
+                  <img onClick={() => handleClick("Burrito Boyz")} src={burritoboyz} alt="Burrito Boyz Logo" width="300" height="200"/>
                   <div class="time_container">
                     <h3>Estimated Time: 20 min</h3>
                   </div>
@@ -149,7 +176,7 @@ const HomePage = () => {
 
               <li id="carousel__slide7" tabindex="0"class="carousel__slide">
                 <div class="carousel__snapper">
-                  <img onClick={handleClick} src={springsushi} alt="Spring Sushi Logo" width="300" height="200"/>
+                  <img onClick={() => handleClick("Spring Sushi")} src={springsushi} alt="Spring Sushi Logo" width="300" height="200"/>
                   <div class="time_container">
                     <h3>Estimated Time: 20 min</h3>
                   </div>
@@ -162,7 +189,7 @@ const HomePage = () => {
 
               <li id="carousel__slide8" tabindex="0"class="carousel__slide">
                 <div class="carousel__snapper">
-                  <img onClick={handleClick} src={villamadina} alt="Villa Madina Logo" width="300" height="200"/>
+                  <img onClick={() => handleClick("Villa Madina")} src={villamadina} alt="Villa Madina Logo" width="300" height="200"/>
                   <div class="time_container">
                     <h3>Estimated Time: 20 min</h3>
                   </div>
@@ -216,13 +243,11 @@ const HomePage = () => {
         <div id="menuModal" class="modal">
           <div class="menu-content">
             <span class="close">&times;</span>
-            <h1 class="rest-name">Restaurant Name</h1>
+            <h1 id="rest-name">Restaurant Name</h1>
             <ul class="menu-items">
-              <li>Item 1</li>
-              <li>Item 2</li>
-              <li>Item 3</li>
-              <li>Item 4</li>
-              <li>Item 5</li>
+              <li id="rest-item-0">Item 1</li>
+              <li id="rest-item-1">Item 2</li>
+              <li id="rest-item-2">Item 3</li>
             </ul>
             <button>Add to Cart</button>
           </div>
