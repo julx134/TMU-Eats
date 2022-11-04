@@ -209,7 +209,7 @@ const HomePage = () => {
             <li id="carousel__slide5" tabindex="0" class="carousel__slide">
               <div class="carousel__snapper">
                 <img
-                  onClick={() => handleClick("Blaze Pizza")}
+                  onClick={() => handleClick("Blaze Pizza ")}
                   src={blaze}
                   alt="Blaze Pizza Logo"
                   width="300"
