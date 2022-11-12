@@ -9,15 +9,20 @@ import springsushi from "./assets/springsushi.png";
 import villamadina from "./assets/villamadina.JPG";
 import "./assets/Carousel.css";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { db } from "../api/Firebase";
 import { collection, getDocs } from "firebase/firestore";
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar, Popover, Modal } from "antd";
 
 const HomePage = () => {
   const [restaurantModalName, setModalRestaurantName] = useState("");
   const [modalMenuItems, setModalMenuItems] = useState([]);
   const [modalCartItems, setModalCartItems] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const menuitems = [];
   let cartitems = [];
+  const navigate = useNavigate();
 
   async function handleClick(name) {
     setModalRestaurantName(name);
@@ -82,12 +87,46 @@ const HomePage = () => {
     }
   }
 
+  const goToProfile = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <div className="banner">
           <img src="../TMU-logo.png" alt="TMU Logo" width="250" height="100" />
+          <Popover>
+            <div className="profile-logo" onClick={goToProfile}>
+              <a>
+                <Avatar size={50} icon={<UserOutlined />} />
+              </a>
+            </div>
+          </Popover>
         </div>
+        <Modal
+          title="Basic Modal"
+          open={isModalOpen}
+          onOk={handleOk}
+          footer={[]}
+          maskClosable={true}
+          onCancel={closeModal}
+          width={"100vh"}
+          bodyStyle={{ height: "70vh" }}
+        >
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+        </Modal>
+
         <div className="navbar">
           <div class="dropdown">
             <button class="dropdown-btn">Filters</button>
@@ -101,7 +140,6 @@ const HomePage = () => {
             <span class="span_topleft">Can't Decide?</span>
             <span class="span_center">Take Our Food Quiz! &#x2794;</span>
           </div>
-
           <div class="categories">
             <a href="#" class="nav1">
               Italian

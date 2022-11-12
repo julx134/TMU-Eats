@@ -272,6 +272,7 @@ textarea.ant-input {
   display: flex;
   align-content: flex-start;
   align-items: center;
+  position: relative;
 }
 
 .navbar {
@@ -609,4 +610,10 @@ a:hover {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+.profile-logo {
+  position: absolute;
+  right: 0px;
+  margin-right: 3vh;
 }
