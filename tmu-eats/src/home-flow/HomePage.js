@@ -15,9 +15,38 @@ import { collection, getDocs } from "firebase/firestore";
 const HomePage = () => {
   const [restaurantModalName, setModalRestaurantName] = useState("");
   const [modalMenuItems, setModalMenuItems] = useState([]);
+  const [modalFilterRestaurants, setModalFilterRestaurants] = useState([]);
   const [modalCartItems, setModalCartItems] = useState([]);
   const menuitems = [];
+  const filterRestaurants = [];
   let cartitems = [];
+  //Dictionary Mapping DB Restaurant Names to Image Names
+  const dbDict = [{
+    id: "????",
+    imageName: "subway"
+  }, {
+    id: "????",
+    imageName: "mcd"
+   }, {
+    id: "????",
+    imageName: "saladking"
+  }, {
+    id: "????",
+    imageName: "blaze"
+  }, {
+    id: "????",
+    imageName: "burritoboyz"
+  }, {
+    id: "????",
+    imageName: "springsushi"
+  }, {
+    id: "????",
+    imageName: "villamadina"
+   },
+  ];
+
+
+
 
   async function handleClick(name) {
     setModalRestaurantName(name);
@@ -64,6 +93,69 @@ const HomePage = () => {
     };
   }
 
+    //Function to retrieve the cuisines from the database (needs work) 
+    async function handleFilterOnClick(cuisine) {
+
+      //This needs to be updated to get the restaurant names based on cuisine (Towsif)
+      //if possible use variable "filterRestaurants" to store the restaurant names
+      cuisine = "Tim Hortons"; //Hardcoded for testing
+
+      //Beginning of Changes Should be pretty similarto what's below I think
+      const querySnapshot = await getDocs(collection(db, "restaurants"));
+      querySnapshot.forEach((doc) => {
+        if (doc.id == cuisine) {
+          let json = doc.data();
+          let menuarray = Object.keys(json);
+  
+          console.log("Menu Array: " + menuarray);
+          for (let k in menuarray) {
+            if (menuarray[k] != "Cuisine" && menuarray[k] != "Delivery Time") {
+              menuitems.push(menuarray[k]);
+            }
+          }
+        }
+      });
+      //End of DB changes
+
+      //setModalFilterRestaurants(filterRestaurants); Requires correct DB function above
+      setModalFilterRestaurants(menuitems);
+  
+      // Get the modal
+      var modal = document.getElementById("filterModal");
+
+  
+      // Get the button that opens the modal
+      var span = document.getElementsByClassName("close")[0];
+  
+      // When the user clicks the img, open the modal
+      modal.style.display = "block";
+  
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function () {
+        modal.style.display = "none";
+      };
+  
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    }
+
+    /**
+     * Closes the filter modal and opens the corresponding restaurant modal
+     * @param {*} restaurant 
+     */
+    async function modalRestaurantClick(restaurant) {
+      var modal = document.getElementById("filterModal");
+      modal.style.display = "none";
+      restaurant = "Tim Hortons";
+      handleClick(restaurant);
+      //<li onClick={() => modalRestaurantClick("Tim Hortons")}>{item}</li>
+    }
+
+
   function addToCart() {
     //clear cartItems
     cartitems = [];
@@ -103,20 +195,20 @@ const HomePage = () => {
           </div>
 
           <div class="categories">
-            <a href="#" class="nav1">
+            <a href="#" class="nav1" onClick={() => handleFilterOnClick("Italian")}>
               Italian
             </a>
-            <a href="#" class="nav2">
-              Chinese
-            </a>
-            <a href="#" class="nav3">
-              Indian
-            </a>
-            <a href="#" class="nav4">
-              Korean
-            </a>
-            <a href="#" class="nav5">
+            <a href="#" class="nav2" onClick={() => handleFilterOnClick("Fast Food")}>
               Fast Food
+            </a>
+            <a href="#" class="nav3" onClick={() => handleFilterOnClick("Japanese")}>
+              Japanese
+            </a>
+            <a href="#" class="nav4" onClick={() => handleFilterOnClick("Mexican")}>
+              Mexican
+            </a>
+            <a href="#" class="nav5" onClick={() => handleFilterOnClick("Middle Eastern")}>
+              Middle Eastern
             </a>
           </div>
         </div>
@@ -335,6 +427,28 @@ const HomePage = () => {
             </ol>
           </aside>
         </section>
+        
+        <div id="filterModal" class="modal">
+        <div class="filter-content">
+            <span class="close">&times;</span>
+            <h1 id="filter"></h1>
+              Applicable Restaurants
+            <ul class="filter-items">
+              {modalFilterRestaurants.map((item, index) => (
+                <div>
+                <img
+                  onClick={() => modalRestaurantClick("Subway")}
+                  src={subway}
+                  alt="Logo"
+                  width="350"
+                  height="200"
+                />
+                </div>
+              ))}
+            </ul>
+          </div>
+        </div>
+
 
         <div id="menuModal" class="modal">
           <div class="menu-content">
