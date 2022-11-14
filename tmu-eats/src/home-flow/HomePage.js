@@ -418,13 +418,13 @@ const HomePage = () => {
             Applicable Restaurants
             <div class="filter-items">
               {modalFilterRestaurants.map((item, index) => (
-                <div>
+                <div class="filter-img">
                   <img
                     onClick={() => modalRestaurantClick(item)}
                     src={dbDict[item]}
                     alt="Logo"
-                    width="350"
-                    height="200"
+                    width="150"
+                    height="80"
                   />
                 </div>
               ))}
