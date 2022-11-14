@@ -21,32 +21,15 @@ const HomePage = () => {
   const filterRestaurants = [];
   let cartitems = [];
   //Dictionary Mapping DB Restaurant Names to Image Names
-  const dbDict = [{
-    id: "????",
-    imageName: "subway"
-  }, {
-    id: "????",
-    imageName: "mcd"
-   }, {
-    id: "????",
-    imageName: "saladking"
-  }, {
-    id: "????",
-    imageName: "blaze"
-  }, {
-    id: "????",
-    imageName: "burritoboyz"
-  }, {
-    id: "????",
-    imageName: "springsushi"
-  }, {
-    id: "????",
-    imageName: "villamadina"
-   },
-  ];
-
-
-
+  const dbDict = {};
+  dbDict["Subway"] = subway;
+  dbDict["McDonald's"]= mcd;
+  dbDict["Salad King"] = saladking;
+  dbDict[" Blaze Pizza"] = blaze; //Extra Space in front is necessary cause it looks like this in the DB for some reason
+  dbDict["Burrito Boyz"] = burritoboyz;
+  dbDict["Spring Sushi"] = springsushi;
+  dbDict["Villa Madina"] = villamadina;
+  dbDict["Tim Hortons"] = timhorton;
 
   async function handleClick(name) {
     setModalRestaurantName(name);
@@ -98,27 +81,19 @@ const HomePage = () => {
 
       //This needs to be updated to get the restaurant names based on cuisine (Towsif)
       //if possible use variable "filterRestaurants" to store the restaurant names
-      cuisine = "Tim Hortons"; //Hardcoded for testing
 
       //Beginning of Changes Should be pretty similarto what's below I think
       const querySnapshot = await getDocs(collection(db, "restaurants"));
       querySnapshot.forEach((doc) => {
-        if (doc.id == cuisine) {
-          let json = doc.data();
-          let menuarray = Object.keys(json);
-  
-          console.log("Menu Array: " + menuarray);
-          for (let k in menuarray) {
-            if (menuarray[k] != "Cuisine" && menuarray[k] != "Delivery Time") {
-              menuitems.push(menuarray[k]);
-            }
-          }
+        if (doc.data().Cuisine == cuisine) {
+          filterRestaurants.push(doc.id)
         }
       });
       //End of DB changes
+      console.log("Restaurants: Array: " + filterRestaurants);
 
-      //setModalFilterRestaurants(filterRestaurants); Requires correct DB function above
-      setModalFilterRestaurants(menuitems);
+      setModalFilterRestaurants(filterRestaurants); 
+      //setModalFilterRestaurants(menuitems);
   
       // Get the modal
       var modal = document.getElementById("filterModal");
@@ -148,13 +123,11 @@ const HomePage = () => {
      * @param {*} restaurant 
      */
     async function modalRestaurantClick(restaurant) {
+      handleClick(restaurant);
       var modal = document.getElementById("filterModal");
       modal.style.display = "none";
-      restaurant = "Tim Hortons";
-      handleClick(restaurant);
       //<li onClick={() => modalRestaurantClick("Tim Hortons")}>{item}</li>
     }
-
 
   function addToCart() {
     //clear cartItems
@@ -301,7 +274,7 @@ const HomePage = () => {
             <li id="carousel__slide5" tabindex="0" class="carousel__slide">
               <div class="carousel__snapper">
                 <img
-                  onClick={() => handleClick("Blaze Pizza ")}
+                  onClick={() => handleClick(" Blaze Pizza")}
                   src={blaze}
                   alt="Blaze Pizza Logo"
                   width="300"
@@ -329,7 +302,7 @@ const HomePage = () => {
                   height="200"
                 />
                 <div class="time_container">
-                  <h3>Estimated Time: 20 min</h3>
+                  <h3>Estimated Time: 5 min</h3>
                 </div>
               </div>
               <a href="#carousel__slide5" class="carousel__prev">
@@ -371,7 +344,7 @@ const HomePage = () => {
                   height="200"
                 />
                 <div class="time_container">
-                  <h3>Estimated Time: 20 min</h3>
+                  <h3>Estimated Time: 10 min</h3>
                 </div>
               </div>
               <a href="#carousel__slide7" class="carousel__prev">
@@ -437,8 +410,8 @@ const HomePage = () => {
               {modalFilterRestaurants.map((item, index) => (
                 <div>
                 <img
-                  onClick={() => modalRestaurantClick("Subway")}
-                  src={subway}
+                  onClick={() => modalRestaurantClick(item)}
+                  src={dbDict[item]}
                   alt="Logo"
                   width="350"
                   height="200"
