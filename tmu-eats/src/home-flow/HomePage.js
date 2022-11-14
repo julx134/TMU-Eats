@@ -76,24 +76,21 @@ const HomePage = () => {
     };
   }
 
-    //Function to retrieve the cuisines from the database (needs work) 
+    /**
+     * Retrieves restaurants matching the cusisine and retrieves the modal
+     * @param {*} cuisine 
+     */
     async function handleFilterOnClick(cuisine) {
 
-      //This needs to be updated to get the restaurant names based on cuisine (Towsif)
-      //if possible use variable "filterRestaurants" to store the restaurant names
-
-      //Beginning of Changes Should be pretty similarto what's below I think
       const querySnapshot = await getDocs(collection(db, "restaurants"));
       querySnapshot.forEach((doc) => {
         if (doc.data().Cuisine == cuisine) {
           filterRestaurants.push(doc.id)
         }
       });
-      //End of DB changes
       console.log("Restaurants: Array: " + filterRestaurants);
 
       setModalFilterRestaurants(filterRestaurants); 
-      //setModalFilterRestaurants(menuitems);
   
       // Get the modal
       var modal = document.getElementById("filterModal");
@@ -126,7 +123,7 @@ const HomePage = () => {
       handleClick(restaurant);
       var modal = document.getElementById("filterModal");
       modal.style.display = "none";
-      //<li onClick={() => modalRestaurantClick("Tim Hortons")}>{item}</li>
+      //<li onClick={() => modalRestaurantClick("Tim Hortons")}>{item}</li> Used for testing
     }
 
   function addToCart() {
