@@ -8,12 +8,13 @@ import burritoboyz from "./assets/burritoboyz.png";
 import springsushi from "./assets/springsushi.png";
 import villamadina from "./assets/villamadina.JPG";
 import "./assets/Carousel.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../api/Firebase";
+import { db, logout, auth } from "../api/Firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Popover, Modal } from "antd";
+import { Avatar, Popover, Modal, Button } from "antd";
+import OrderHistory from "./components/OrderHistory";
 
 const HomePage = () => {
   const [restaurantModalName, setModalRestaurantName] = useState("");
@@ -87,7 +88,7 @@ const HomePage = () => {
     }
   }
 
-  const goToProfile = () => {
+  const openProfile = () => {
     setIsModalOpen(true);
   };
 
@@ -99,13 +100,18 @@ const HomePage = () => {
     setIsModalOpen(false);
   };
 
+  const logoutUser = async () => {
+    await logout();
+    navigate("/");
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <div className="banner">
           <img src="../TMU-logo.png" alt="TMU Logo" width="250" height="100" />
           <Popover>
-            <div className="profile-logo" onClick={goToProfile}>
+            <div className="profile-logo" onClick={openProfile}>
               <a>
                 <Avatar size={50} icon={<UserOutlined />} />
               </a>
@@ -113,18 +119,26 @@ const HomePage = () => {
           </Popover>
         </div>
         <Modal
-          title="Basic Modal"
+          title=""
           open={isModalOpen}
           onOk={handleOk}
-          footer={[]}
+          footer={[
+            <Button type="primary" onClick={logoutUser}>
+              Signout
+            </Button>,
+          ]}
           maskClosable={true}
           onCancel={closeModal}
           width={"100vh"}
           bodyStyle={{ height: "70vh" }}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+          {auth.currentUser ? (
+            <h1>{auth.currentUser.displayName}</h1>
+          ) : (
+            <h1></h1>
+          )}
+          <h2>Order History</h2>
+          <OrderHistory />
         </Modal>
 
         <div className="navbar">

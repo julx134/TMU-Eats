@@ -39,7 +39,6 @@ const signInWithGoogle = async () => {
     const user = res.user;
     const q = query(collection(db, "users"), where("uid", "==", user.uid));
     const docs = await getDocs(q);
-    console.log("here:    " + JSON.stringify(docs.docs.length));
     if (docs.docs.length === 0) {
       await addDoc(collection(db, "users"), {
         uid: user.uid,
@@ -54,11 +53,10 @@ const signInWithGoogle = async () => {
   }
 };
 
-const getRest = async (restName) =>{
-  const data = doc(db,"restaurants",restName);
+const getRest = async (restName) => {
+  const data = doc(db, "restaurants", restName);
   const snap = await getDoc(data);
   console.log(snap.data());
-
 };
 
 const logInWithEmailAndPassword = async (email, password) => {
@@ -96,8 +94,8 @@ const sendPasswordReset = async (email) => {
   }
 };
 
-const logout = () => {
-  signOut(auth);
+const logout = async () => {
+  await signOut(auth);
 };
 
 export {
