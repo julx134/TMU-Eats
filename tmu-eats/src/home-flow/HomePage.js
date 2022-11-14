@@ -23,7 +23,7 @@ const HomePage = () => {
   //Dictionary Mapping DB Restaurant Names to Image Names
   const dbDict = {};
   dbDict["Subway"] = subway;
-  dbDict["McDonald's"]= mcd;
+  dbDict["McDonald's"] = mcd;
   dbDict["Salad King"] = saladking;
   dbDict[" Blaze Pizza"] = blaze; //Extra Space in front is necessary cause it looks like this in the DB for some reason
   dbDict["Burrito Boyz"] = burritoboyz;
@@ -76,55 +76,53 @@ const HomePage = () => {
     };
   }
 
-    /**
-     * Retrieves restaurants matching the cusisine and retrieves the modal
-     * @param {*} cuisine 
-     */
-    async function handleFilterOnClick(cuisine) {
+  /**
+   * Retrieves restaurants matching the cusisine and retrieves the modal
+   * @param {*} cuisine
+   */
+  async function handleFilterOnClick(cuisine) {
+    const querySnapshot = await getDocs(collection(db, "restaurants"));
+    querySnapshot.forEach((doc) => {
+      if (doc.data().Cuisine == cuisine) {
+        filterRestaurants.push(doc.id);
+      }
+    });
+    console.log("Restaurants: Array: " + filterRestaurants);
 
-      const querySnapshot = await getDocs(collection(db, "restaurants"));
-      querySnapshot.forEach((doc) => {
-        if (doc.data().Cuisine == cuisine) {
-          filterRestaurants.push(doc.id)
-        }
-      });
-      console.log("Restaurants: Array: " + filterRestaurants);
+    setModalFilterRestaurants(filterRestaurants);
 
-      setModalFilterRestaurants(filterRestaurants); 
-  
-      // Get the modal
-      var modal = document.getElementById("filterModal");
+    // Get the modal
+    var modal = document.getElementById("filterModal");
 
-  
-      // Get the button that opens the modal
-      var span = document.getElementsByClassName("close")[0];
-  
-      // When the user clicks the img, open the modal
-      modal.style.display = "block";
-  
-      // When the user clicks on <span> (x), close the modal
-      span.onclick = function () {
-        modal.style.display = "none";
-      };
-  
-      // When the user clicks anywhere outside of the modal, close it
-      window.onclick = function (event) {
-        if (event.target == modal) {
-          modal.style.display = "none";
-        }
-      };
-    }
+    // Get the button that opens the modal
+    var span = document.getElementsByClassName("close")[0];
 
-    /**
-     * Closes the filter modal and opens the corresponding restaurant modal
-     * @param {*} restaurant 
-     */
-    async function modalRestaurantClick(restaurant) {
-      handleClick(restaurant);
-      var modal = document.getElementById("filterModal");
+    // When the user clicks the img, open the modal
+    modal.style.display = "block";
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
       modal.style.display = "none";
-      //<li onClick={() => modalRestaurantClick("Tim Hortons")}>{item}</li> Used for testing
-    }
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+  }
+
+  /**
+   * Closes the filter modal and opens the corresponding restaurant modal
+   * @param {*} restaurant
+   */
+  async function modalRestaurantClick(restaurant) {
+    handleClick(restaurant);
+    var modal = document.getElementById("filterModal");
+    modal.style.display = "none";
+    //<li onClick={() => modalRestaurantClick("Tim Hortons")}>{item}</li> Used for testing
+  }
 
   function addToCart() {
     //clear cartItems
@@ -160,19 +158,39 @@ const HomePage = () => {
           </div>
 
           <div class="categories">
-            <a href="#" class="nav1" onClick={() => handleFilterOnClick("Italian")}>
+            <a
+              href="#"
+              class="nav1"
+              onClick={() => handleFilterOnClick("Italian")}
+            >
               Italian
             </a>
-            <a href="#" class="nav2" onClick={() => handleFilterOnClick("Fast Food")}>
+            <a
+              href="#"
+              class="nav2"
+              onClick={() => handleFilterOnClick("Fast Food")}
+            >
               Fast Food
             </a>
-            <a href="#" class="nav3" onClick={() => handleFilterOnClick("Japanese")}>
+            <a
+              href="#"
+              class="nav3"
+              onClick={() => handleFilterOnClick("Japanese")}
+            >
               Japanese
             </a>
-            <a href="#" class="nav4" onClick={() => handleFilterOnClick("Mexican")}>
+            <a
+              href="#"
+              class="nav4"
+              onClick={() => handleFilterOnClick("Mexican")}
+            >
               Mexican
             </a>
-            <a href="#" class="nav5" onClick={() => handleFilterOnClick("Middle Eastern")}>
+            <a
+              href="#"
+              class="nav5"
+              onClick={() => handleFilterOnClick("Middle Eastern")}
+            >
               Middle Eastern
             </a>
           </div>
@@ -392,36 +410,35 @@ const HomePage = () => {
             </ol>
           </aside>
         </section>
-        
+
         <div id="filterModal" class="modal">
-        <div class="filter-content">
+          <div class="filter-content">
             <span class="close">&times;</span>
             <h1 id="filter"></h1>
-              Applicable Restaurants
-            <ul class="filter-items">
+            Applicable Restaurants
+            <div class="filter-items">
               {modalFilterRestaurants.map((item, index) => (
                 <div>
-                <img
-                  onClick={() => modalRestaurantClick(item)}
-                  src={dbDict[item]}
-                  alt="Logo"
-                  width="350"
-                  height="200"
-                />
+                  <img
+                    onClick={() => modalRestaurantClick(item)}
+                    src={dbDict[item]}
+                    alt="Logo"
+                    width="350"
+                    height="200"
+                  />
                 </div>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
-
 
         <div id="menuModal" class="modal">
           <div class="menu-content">
             <span class="close">&times;</span>
             <h1 id="rest-name">{restaurantModalName}</h1>
-            <ul class="menu-items">
+            <div class="menu-items">
               {modalMenuItems.map((item, index) => (
-                <div>
+                <div class="individual-items">
                   <li>{item}</li>
                   <input
                     id={"menuItem" + index}
@@ -430,8 +447,8 @@ const HomePage = () => {
                   />
                 </div>
               ))}
-            </ul>
-            <button onClick={() => addToCart()}>Add to Cart</button>
+            </div>
+            <button class="add-cart-btn" onClick={() => addToCart() }>Add to Cart</button>
           </div>
         </div>
       </header>
