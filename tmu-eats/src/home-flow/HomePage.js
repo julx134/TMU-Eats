@@ -12,7 +12,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { db, logout, auth } from "../api/Firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, ReloadOutlined } from "@ant-design/icons";
 import { Avatar, Popover, Modal, Button } from "antd";
 import OrderHistory from "./components/OrderHistory";
 
@@ -21,6 +21,7 @@ const HomePage = () => {
   const [modalMenuItems, setModalMenuItems] = useState([]);
   const [modalCartItems, setModalCartItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [orderItems, resetOrderItems] = useState(false);
   const menuitems = [];
   let cartitems = [];
   const navigate = useNavigate();
@@ -89,20 +90,27 @@ const HomePage = () => {
   }
 
   const openProfile = () => {
+    resetOrderItems(true);
     setIsModalOpen(true);
   };
 
   const handleOk = () => {
+    resetOrderItems(false);
     setIsModalOpen(false);
   };
 
   const closeModal = () => {
+    resetOrderItems(false);
     setIsModalOpen(false);
   };
 
   const logoutUser = async () => {
     await logout();
     navigate("/");
+  };
+
+  const refreshData = () => {
+    console.log("test");
   };
 
   return (
@@ -121,6 +129,7 @@ const HomePage = () => {
         <Modal
           title=""
           open={isModalOpen}
+          destroyOnClose={true}
           onOk={handleOk}
           footer={[
             <Button type="primary" onClick={logoutUser}>
@@ -137,7 +146,17 @@ const HomePage = () => {
           ) : (
             <h1></h1>
           )}
-          <h2>Order History</h2>
+          <div>
+            <h2 style={{ display: "inline" }}>Order History</h2>
+            <Popover style={{ marginLeft: "1vh" }}>
+              <div style={{ display: "inline" }} onClick={refreshData}>
+                <a>
+                  <ReloadOutlined style={{ marginLeft: "1vh" }} />
+                </a>
+              </div>
+            </Popover>
+          </div>
+
           <OrderHistory />
         </Modal>
 

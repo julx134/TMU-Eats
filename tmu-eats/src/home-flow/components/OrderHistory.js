@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CalendarTwoTone } from "@ant-design/icons";
 const { Panel } = Collapse;
-const OrderHistory = () => {
+const OrderHistory = ({}) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [time, setTime] = useState(Date.now());
@@ -17,7 +17,6 @@ const OrderHistory = () => {
     )
       .then((res) => res.json())
       .then((body) => {
-        console.log("ran");
         setData([...data, ...body.results]);
         setLoading(false);
       })
@@ -34,6 +33,7 @@ const OrderHistory = () => {
       };
     }
   }, [time]);
+
   return (
     <div
       id="scrollableDiv"
