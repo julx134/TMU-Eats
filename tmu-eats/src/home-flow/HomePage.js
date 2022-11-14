@@ -153,11 +153,6 @@ const HomePage = () => {
         <div className="navbar">
           <div class="dropdown">
             <button class="dropdown-btn">Filters</button>
-            <div class="dropdown-content">
-              <a href="#">Best Rated</a>
-              <a href="#">Offers</a>
-              <a href="#">Fastest Near Me</a>
-            </div>
           </div>
           <div className="quizbox">
             <span class="span_topleft">Can't Decide?</span>
