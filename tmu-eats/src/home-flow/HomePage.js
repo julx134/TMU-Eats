@@ -15,9 +15,11 @@ import { collection, getDocs } from "firebase/firestore";
 const HomePage = () => {
   const [restaurantModalName, setModalRestaurantName] = useState("");
   const [modalMenuItems, setModalMenuItems] = useState([]);
+  const [menuPrices, setMenuPrices] = useState([]);
   const [modalFilterRestaurants, setModalFilterRestaurants] = useState([]);
   const [modalCartItems, setModalCartItems] = useState([]);
   const menuitems = [];
+  const menuprices = [];
   const filterRestaurants = [];
   let cartitems = [];
   //Dictionary Mapping DB Restaurant Names to Image Names
@@ -44,12 +46,14 @@ const HomePage = () => {
         for (let k in menuarray) {
           if (menuarray[k] != "Cuisine" && menuarray[k] != "Delivery Time") {
             menuitems.push(menuarray[k]);
+            menuprices.push(doc.get(menuarray[k]));
           }
         }
       }
     });
 
     setModalMenuItems(menuitems);
+    setMenuPrices(menuprices);
 
     // Get the modal
     var modal = document.getElementById("menuModal");
@@ -423,6 +427,7 @@ const HomePage = () => {
               {modalMenuItems.map((item, index) => (
                 <div>
                   <li>{item}</li>
+                  <li>{"$".concat(menuPrices[index])}</li>
                   <input
                     id={"menuItem" + index}
                     type="checkbox"
