@@ -3,15 +3,17 @@ import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CalendarTwoTone } from "@ant-design/icons";
 const { Panel } = Collapse;
-const OrderHistory = ({}) => {
+const OrderHistory = ({ refreshData, setRefreshDataState }) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [time, setTime] = useState(Date.now());
-  const loadMoreData = () => {
+
+  const loadMoreData = async () => {
     if (loading) {
       return;
     }
     setLoading(true);
+    //await call from firebase --here
     fetch(
       "https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo"
     )
@@ -25,6 +27,10 @@ const OrderHistory = ({}) => {
       });
   };
   useEffect(() => {
+    if (refreshData) {
+      setData([]);
+      setRefreshDataState(false);
+    }
     if (data.length < 50) {
       const interval = setInterval(() => setTime(Date.now()), 3000);
       loadMoreData();
@@ -32,7 +38,7 @@ const OrderHistory = ({}) => {
         clearInterval(interval);
       };
     }
-  }, [time]);
+  }, [time, refreshData]);
 
   return (
     <div

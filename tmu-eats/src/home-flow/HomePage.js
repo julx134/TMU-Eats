@@ -21,7 +21,7 @@ const HomePage = () => {
   const [modalMenuItems, setModalMenuItems] = useState([]);
   const [modalCartItems, setModalCartItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [orderItems, resetOrderItems] = useState(false);
+  const [refreshDataState, setRefreshDataState] = useState(false);
   const menuitems = [];
   let cartitems = [];
   const navigate = useNavigate();
@@ -90,17 +90,14 @@ const HomePage = () => {
   }
 
   const openProfile = () => {
-    resetOrderItems(true);
     setIsModalOpen(true);
   };
 
   const handleOk = () => {
-    resetOrderItems(false);
     setIsModalOpen(false);
   };
 
   const closeModal = () => {
-    resetOrderItems(false);
     setIsModalOpen(false);
   };
 
@@ -110,6 +107,7 @@ const HomePage = () => {
   };
 
   const refreshData = () => {
+    setRefreshDataState(true);
     console.log("test");
   };
 
@@ -157,7 +155,10 @@ const HomePage = () => {
             </Popover>
           </div>
 
-          <OrderHistory />
+          <OrderHistory
+            refreshData={refreshDataState}
+            setRefreshDataState={setRefreshDataState}
+          />
         </Modal>
 
         <div className="navbar">
