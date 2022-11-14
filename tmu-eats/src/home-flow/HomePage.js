@@ -444,7 +444,7 @@ const HomePage = () => {
               {modalMenuItems.map((item, index) => (
                 <div class="individual-items">
                   <li>{item}</li>
-                  <li>{"$".concat(menuPrices[index])}</li>
+                  <li class="item-price">{"$".concat(menuPrices[index])}</li>
                   <input
                     id={"menuItem" + index}
                     type="checkbox"
