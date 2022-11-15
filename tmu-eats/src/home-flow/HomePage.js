@@ -1,4 +1,5 @@
 import "../App.css";
+import Cart from "../item-flow/Cart";
 import mcd from "./assets/mcd.png";
 import timhorton from "./assets/TimHorton.png";
 import subway from "./assets/subway.png";
@@ -11,6 +12,9 @@ import "./assets/Carousel.css";
 import React, { useState } from "react";
 import { db } from "../api/Firebase";
 import { collection, getDocs } from "firebase/firestore";
+import { createSearchParams,useNavigate } from "react-router-dom";
+
+
 
 const HomePage = () => {
   const [restaurantModalName, setModalRestaurantName] = useState("");
@@ -22,6 +26,8 @@ const HomePage = () => {
   const menuprices = [];
   const filterRestaurants = [];
   let cartitems = [];
+  let itemsprices = [];
+  const navigate = useNavigate();
   //Dictionary Mapping DB Restaurant Names to Image Names
   const dbDict = {};
   dbDict["Subway"] = subway;
@@ -131,10 +137,12 @@ const HomePage = () => {
   function addToCart() {
     //clear cartItems
     cartitems = [];
+    itemsprices = [];
     modalMenuItems.forEach((item, index) => {
       let itemCheckbox = document.getElementById("menuItem" + index);
       if (itemCheckbox.checked) {
         cartitems.push(item);
+        itemsprices.push(menuPrices[index])
       }
     });
 
@@ -144,6 +152,15 @@ const HomePage = () => {
     for (let i = 0; i < collection.length; i++) {
       if (collection[i].checked) collection[i].checked = false;
     }
+    navigate({
+      pathname:"/cart",
+      search: createSearchParams({
+        items: cartitems,
+        prices: itemsprices
+      }).toString()
+  
+  });
+
   }
 
   return (

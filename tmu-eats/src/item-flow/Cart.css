@@ -1,0 +1,13 @@
+.img-fluid{
+    width: 100px;
+}
+.cart-row{
+    border-color: black;
+    border-style: solid;
+    height: 50px;
+    margin-top: 2%;
+}
+
+#item-price{
+    margin-left: 95%;
+}
