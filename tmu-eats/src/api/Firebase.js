@@ -39,7 +39,6 @@ const signInWithGoogle = async () => {
     const user = res.user;
     const q = query(collection(db, "users"), where("uid", "==", user.uid));
     const docs = await getDocs(q);
-    console.log("here:    " + JSON.stringify(docs.docs.length));
     if (docs.docs.length === 0) {
       await addDoc(collection(db, "users"), {
         uid: user.uid,
@@ -54,11 +53,44 @@ const signInWithGoogle = async () => {
   }
 };
 
-const getRest = async (restName) =>{
-  const data = doc(db,"restaurants",restName);
+const getUserOrderHistory = async () => {
+  const user = getAuth().currentUser;
+
+  try {
+    const q = query(
+      collection(db, "orderhistory"),
+      where("uid", "==", user.uid)
+    );
+    const docs = await getDocs(q);
+    return docs.docs;
+  } catch (err) {
+    alert(err.message);
+  }
+};
+
+const addOrderHistory = async (foodArray, restaurant, totalPrice) => {
+  try {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    await addDoc(collection(db, "orderhistory"), {
+      uid: user.uid,
+      itemsOrdered: foodArray,
+      email: user.email,
+      restaurant: restaurant,
+      totalPrice: totalPrice,
+      date: new Date().toLocaleDateString(),
+    });
+  } catch (err) {
+    console.error("This is an error: " + err);
+    alert(err.message);
+  }
+};
+
+const getRest = async (restName) => {
+  const data = doc(db, "restaurants", restName);
   const snap = await getDoc(data);
   console.log(snap.data());
-
 };
 
 const logInWithEmailAndPassword = async (email, password) => {
@@ -96,8 +128,8 @@ const sendPasswordReset = async (email) => {
   }
 };
 
-const logout = () => {
-  signOut(auth);
+const logout = async () => {
+  await signOut(auth);
 };
 
 export {
@@ -109,4 +141,6 @@ export {
   sendPasswordReset,
   logout,
   getRest,
+  addOrderHistory,
+  getUserOrderHistory,
 };
