@@ -53,28 +53,42 @@ const signInWithGoogle = async () => {
   }
 };
 
-const addOrderHistory = async (foodArray) => {
-  try {
+const getUserOrderHistory = async () => {
+  const user = getAuth().currentUser;
 
+  try {
+    const q = query(
+      collection(db, "orderhistory"),
+      where("uid", "==", user.uid)
+    );
+    const docs = await getDocs(q);
+    return docs.docs;
+  } catch (err) {
+    alert(err.message);
+  }
+};
+
+const addOrderHistory = async (foodArray, restaurant, totalPrice) => {
+  try {
     const auth = getAuth();
     const user = auth.currentUser;
 
-      await addDoc(collection(db, "orderhistory"), {
-        uid: user.uid,
-        itemsOrdered: foodArray,
-        email: user.email,
-        date: new Date().toLocaleDateString(),
-      });
-  
+    await addDoc(collection(db, "orderhistory"), {
+      uid: user.uid,
+      itemsOrdered: foodArray,
+      email: user.email,
+      restaurant: restaurant,
+      totalPrice: totalPrice,
+      date: new Date().toLocaleDateString(),
+    });
   } catch (err) {
     console.error("This is an error: " + err);
     alert(err.message);
   }
 };
 
-
-const getRest = async (restName) =>{
-  const data = doc(db,"restaurants",restName);
+const getRest = async (restName) => {
+  const data = doc(db, "restaurants", restName);
   const snap = await getDoc(data);
   console.log(snap.data());
 };
@@ -128,4 +142,5 @@ export {
   logout,
   getRest,
   addOrderHistory,
+  getUserOrderHistory,
 };

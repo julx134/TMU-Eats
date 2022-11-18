@@ -2,43 +2,61 @@ import { Avatar, Divider, List, Skeleton, Collapse } from "antd";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CalendarTwoTone } from "@ant-design/icons";
+import { db, getUserOrderHistory } from "../../api/Firebase";
+import OrderList from "./OrderList";
 const { Panel } = Collapse;
 const OrderHistory = ({ refreshData, setRefreshDataState }) => {
   const [loading, setLoading] = useState(false);
+  const [dbDataLength, setDBDataLength] = useState();
   const [data, setData] = useState([]);
   const [time, setTime] = useState(Date.now());
 
   const loadMoreData = async () => {
+    console.log("in api call");
     if (loading) {
       return;
     }
     setLoading(true);
     //await call from firebase --here
-    fetch(
-      "https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo"
-    )
-      .then((res) => res.json())
+    getUserOrderHistory()
       .then((body) => {
-        setData([...data, ...body.results]);
-        setLoading(false);
+        setDBDataLength(body.length);
+        if (data.length != body.length) {
+          setData([...data, ...body]);
+          setLoading(false);
+        }
       })
       .catch(() => {
         setLoading(false);
       });
   };
   useEffect(() => {
+    const interval = setInterval(() => setTime(Date.now()), 3000);
+    console.log("in use effect");
     if (refreshData) {
       setData([]);
       setRefreshDataState(false);
     }
-    if (data.length < 50) {
-      const interval = setInterval(() => setTime(Date.now()), 3000);
+    if (data.length != dbDataLength) {
       loadMoreData();
-      return () => {
-        clearInterval(interval);
-      };
     }
+    return () => {
+      clearInterval(interval);
+    };
   }, [time, refreshData]);
+
+  function formatOrderItems(orderItems) {
+    let formattedArray = [];
+    orderItems.map((item, index) => {
+      if (index == 0) {
+        formattedArray[index] = "\u2022 " + item + " ";
+      } else {
+        formattedArray[index] = "|| \u2022 " + item;
+      }
+    });
+    console.log(formattedArray);
+    return formattedArray;
+  }
 
   return (
     <div
@@ -53,7 +71,7 @@ const OrderHistory = ({ refreshData, setRefreshDataState }) => {
       <InfiniteScroll
         dataLength={data.length}
         next={loadMoreData}
-        hasMore={data.length < 50}
+        hasMore={data.length != dbDataLength}
         loader={
           <Skeleton
             avatar
@@ -75,17 +93,19 @@ const OrderHistory = ({ refreshData, setRefreshDataState }) => {
                   <div>
                     <CalendarTwoTone />
                     <p style={{ display: "inline", marginLeft: "1vh" }}>
-                      date goes here
+                      {item.data().date}
                     </p>
                   </div>
                 }
               >
                 <List.Item key={item.email}>
                   <List.Item.Meta
-                    title={<a href="https://ant.design">{item.name.last}</a>}
-                    description={item.email}
+                    title={
+                      <a href="https://ant.design">{item.data().restaurant}</a>
+                    }
+                    description={formatOrderItems(item.data().itemsOrdered)}
                   />
-                  <div>Content</div>
+                  <div>{item.data().totalPrice}</div>
                 </List.Item>
               </Panel>
             </Collapse>

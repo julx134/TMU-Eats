@@ -10,13 +10,12 @@ import springsushi from "./assets/springsushi.png";
 import villamadina from "./assets/villamadina.JPG";
 import "./assets/Carousel.css";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { db, logout, auth } from "../api/Firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { UserOutlined, ReloadOutlined } from "@ant-design/icons";
 import { Avatar, Popover, Modal, Button } from "antd";
 import OrderHistory from "./components/OrderHistory";
-import { createSearchParams,useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const [restaurantModalName, setModalRestaurantName] = useState("");
@@ -101,7 +100,6 @@ const HomePage = () => {
         filterRestaurants.push(doc.id);
       }
     });
-    console.log("Restaurants: Array: " + filterRestaurants);
 
     setModalFilterRestaurants(filterRestaurants);
 
@@ -146,7 +144,7 @@ const HomePage = () => {
       let itemCheckbox = document.getElementById("menuItem" + index);
       if (itemCheckbox.checked) {
         cartitems.push(item);
-        itemsprices.push(menuPrices[index])
+        itemsprices.push(menuPrices[index]);
       }
     });
 
@@ -157,14 +155,13 @@ const HomePage = () => {
       if (collection[i].checked) collection[i].checked = false;
     }
     navigate({
-      pathname:"/cart",
+      pathname: "/cart",
       search: createSearchParams({
         items: cartitems,
-        prices: itemsprices
-      }).toString()
-  
-  });
-
+        prices: itemsprices,
+        restaurant: restaurantModalName,
+      }).toString(),
+    });
   }
 
   const openProfile = () => {
@@ -186,7 +183,6 @@ const HomePage = () => {
 
   const refreshData = () => {
     setRefreshDataState(true);
-    console.log("test");
   };
 
   return (
@@ -539,7 +535,9 @@ const HomePage = () => {
                 </div>
               ))}
             </div>
-            <button class="add-cart-btn" onClick={() => addToCart() }>Add to Cart</button>
+            <button class="add-cart-btn" onClick={() => addToCart()}>
+              Add to Cart
+            </button>
           </div>
         </div>
       </header>
