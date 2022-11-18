@@ -9,12 +9,14 @@ import burritoboyz from "./assets/burritoboyz.png";
 import springsushi from "./assets/springsushi.png";
 import villamadina from "./assets/villamadina.JPG";
 import "./assets/Carousel.css";
-import React, { useState } from "react";
-import { db } from "../api/Firebase";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { db, logout, auth } from "../api/Firebase";
 import { collection, getDocs } from "firebase/firestore";
+import { UserOutlined, ReloadOutlined } from "@ant-design/icons";
+import { Avatar, Popover, Modal, Button } from "antd";
+import OrderHistory from "./components/OrderHistory";
 import { createSearchParams,useNavigate } from "react-router-dom";
-
-
 
 const HomePage = () => {
   const [restaurantModalName, setModalRestaurantName] = useState("");
@@ -22,6 +24,8 @@ const HomePage = () => {
   const [menuPrices, setMenuPrices] = useState([]);
   const [modalFilterRestaurants, setModalFilterRestaurants] = useState([]);
   const [modalCartItems, setModalCartItems] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [refreshDataState, setRefreshDataState] = useState(false);
   const menuitems = [];
   const menuprices = [];
   const filterRestaurants = [];
@@ -163,12 +167,78 @@ const HomePage = () => {
 
   }
 
+  const openProfile = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const logoutUser = async () => {
+    await logout();
+    navigate("/");
+  };
+
+  const refreshData = () => {
+    setRefreshDataState(true);
+    console.log("test");
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <div className="banner">
           <img src="../TMU-logo.png" alt="TMU Logo" width="250" height="100" />
+          <Popover>
+            <div className="profile-logo" onClick={openProfile}>
+              <a>
+                <Avatar size={50} icon={<UserOutlined />} />
+              </a>
+            </div>
+          </Popover>
         </div>
+        <Modal
+          title=""
+          open={isModalOpen}
+          destroyOnClose={true}
+          onOk={handleOk}
+          footer={[
+            <Button type="primary" onClick={logoutUser}>
+              Signout
+            </Button>,
+          ]}
+          maskClosable={true}
+          onCancel={closeModal}
+          width={"100vh"}
+          bodyStyle={{ height: "70vh" }}
+        >
+          {auth.currentUser ? (
+            <h1>{auth.currentUser.displayName}</h1>
+          ) : (
+            <h1></h1>
+          )}
+          <div>
+            <h2 style={{ display: "inline" }}>Order History</h2>
+            <Popover style={{ marginLeft: "1vh" }}>
+              <div style={{ display: "inline" }} onClick={refreshData}>
+                <a>
+                  <ReloadOutlined style={{ marginLeft: "1vh" }} />
+                </a>
+              </div>
+            </Popover>
+          </div>
+
+          <OrderHistory
+            refreshData={refreshDataState}
+            setRefreshDataState={setRefreshDataState}
+          />
+        </Modal>
+
         <div className="navbar">
           <div class="dropdown">
             <button class="dropdown-btn">Filters</button>
@@ -177,7 +247,6 @@ const HomePage = () => {
             <span class="span_topleft">Can't Decide?</span>
             <span class="span_center">Take Our Food Quiz! &#x2794;</span>
           </div>
-
           <div class="categories">
             <a
               href="#"
