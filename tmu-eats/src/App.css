@@ -1,11 +1,10 @@
 .App {
   text-align: center;
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
 }
 
 body,
 html {
-
   margin: 0;
   padding: 0;
   width: 100%;
@@ -52,9 +51,11 @@ html {
   justify-content: space-between;
   height: 100%;
   background: rgb(191, 222, 241);
-  background: linear-gradient(90deg,
-      rgba(191, 222, 241, 1) 24%,
-      rgba(246, 246, 246, 1) 66%);
+  background: linear-gradient(
+    90deg,
+    rgba(191, 222, 241, 1) 24%,
+    rgba(246, 246, 246, 1) 66%
+  );
 }
 
 .App-header {
@@ -141,24 +142,30 @@ textarea.ant-input {
 
 .gradient {
   background: rgb(240, 247, 255);
-  background: linear-gradient(90deg,
-      rgba(240, 247, 255, 1) 0%,
-      rgba(229, 239, 250, 1) 40%,
-      rgba(181, 198, 224, 1) 73%);
+  background: linear-gradient(
+    90deg,
+    rgba(240, 247, 255, 1) 0%,
+    rgba(229, 239, 250, 1) 40%,
+    rgba(181, 198, 224, 1) 73%
+  );
 }
 
 .gradient2 {
   background: rgb(240, 247, 255);
-  background: linear-gradient(90deg,
-      rgba(240, 247, 255, 1) 0%,
-      rgba(229, 239, 250, 1) 58%);
+  background: linear-gradient(
+    90deg,
+    rgba(240, 247, 255, 1) 0%,
+    rgba(229, 239, 250, 1) 58%
+  );
 }
 
 .gradient3 {
   background: rgb(191, 222, 241);
-  background: linear-gradient(90deg,
-      rgba(191, 222, 241, 1) 25%,
-      rgba(246, 246, 246, 1) 79%);
+  background: linear-gradient(
+    90deg,
+    rgba(191, 222, 241, 1) 25%,
+    rgba(246, 246, 246, 1) 79%
+  );
 }
 
 /**
@@ -268,7 +275,7 @@ textarea.ant-input {
 .banner {
   width: 100vw;
   height: 130px;
-  background-color: #002D72;
+  background-color: #002d72;
   display: flex;
   align-content: flex-start;
   align-items: center;
@@ -303,7 +310,7 @@ textarea.ant-input {
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  color: #002D72;
+  color: #002d72;
 }
 
 .dropdown {
@@ -321,7 +328,7 @@ textarea.ant-input {
   margin-right: 70px;
   height: 48px;
   font-weight: bold;
-  color: #002D72;
+  color: #002d72;
 }
 
 .dropdown-content {
@@ -349,7 +356,7 @@ textarea.ant-input {
 
 .categories a:hover {
   background-color: #ddd;
-  color: #0077C8;
+  color: #0077c8;
   transition: 0.5s;
 }
 
@@ -359,14 +366,14 @@ textarea.ant-input {
 }
 
 .quizbox {
-  color: #002D72;
+  color: #002d72;
   font-size: calc(20px + 2vmin);
   border-radius: 15px 50px;
-  border-color: #002D72;
+  border-color: #002d72;
   border-style: solid;
   position: absolute;
   top: 600px;
-  border: #002D72;
+  border: #002d72;
   background: #999999;
   padding: 20px;
   width: 35%;
@@ -419,7 +426,7 @@ textarea.ant-input {
   border: transparent;
 }
 
-@media(max-width:767px) {
+@media (max-width: 767px) {
   .card {
     margin: 3vh auto;
   }
@@ -432,7 +439,7 @@ textarea.ant-input {
   border-top-left-radius: 1rem;
 }
 
-@media(max-width:767px) {
+@media (max-width: 767px) {
   .cart {
     padding: 4vh;
     border-bottom-left-radius: unset;
@@ -448,7 +455,7 @@ textarea.ant-input {
   color: rgb(65, 65, 65);
 }
 
-@media(max-width:767px) {
+@media (max-width: 767px) {
   .summary {
     border-top-right-radius: unset;
     border-bottom-left-radius: 1rem;
@@ -486,12 +493,10 @@ textarea.ant-input {
   padding: 0 1vh;
 }
 
-
 .close {
   margin-left: auto;
   font-size: 0.7rem;
 }
-
 
 .back-to-shop {
   margin-top: 4.5rem;
@@ -566,7 +571,12 @@ a:hover {
 }
 
 #code {
-  background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
+  background-image: linear-gradient(
+      to left,
+      rgba(255, 255, 255, 0.253),
+      rgba(255, 255, 255, 0.185)
+    ),
+    url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
   background-repeat: no-repeat;
   background-position-x: 95%;
   background-position-y: center;
@@ -583,8 +593,8 @@ a:hover {
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 /* Modal Content */
@@ -594,7 +604,59 @@ a:hover {
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 40%;
+  justify-content: center;
+}
+
+.menu-items {
+  display: inline-block;
+}
+
+.add-cart-btn {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+}
+
+.individual-items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.item-price {
+  padding-left: 20px;
+}
+
+.cartCheckbox {
+  width: auto;
+  height: auto;
+  margin-top: 30px;
+  margin-right: 20px;
+}
+
+/* Filter Content */
+.filter-content {
+  background-color: #fefefe;
+  color: #000;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60%;
+  justify-content: left;
+}
+
+.filter-img {
+  padding: 20px;
+}
+
+.filter-items {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 /* The Close Button */
@@ -617,3 +679,4 @@ a:hover {
   right: 0px;
   margin-right: 3vh;
 }
+

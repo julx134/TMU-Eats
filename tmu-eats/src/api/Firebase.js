@@ -53,8 +53,28 @@ const signInWithGoogle = async () => {
   }
 };
 
-const getRest = async (restName) => {
-  const data = doc(db, "restaurants", restName);
+const addOrderHistory = async (foodArray) => {
+  try {
+
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+      await addDoc(collection(db, "orderhistory"), {
+        uid: user.uid,
+        itemsOrdered: foodArray,
+        email: user.email,
+        date: new Date().toLocaleDateString(),
+      });
+  
+  } catch (err) {
+    console.error("This is an error: " + err);
+    alert(err.message);
+  }
+};
+
+
+const getRest = async (restName) =>{
+  const data = doc(db,"restaurants",restName);
   const snap = await getDoc(data);
   console.log(snap.data());
 };
@@ -107,4 +127,5 @@ export {
   sendPasswordReset,
   logout,
   getRest,
+  addOrderHistory,
 };

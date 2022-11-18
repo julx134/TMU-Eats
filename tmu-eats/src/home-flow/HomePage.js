@@ -1,4 +1,5 @@
 import "../App.css";
+import Cart from "../item-flow/Cart";
 import mcd from "./assets/mcd.png";
 import timhorton from "./assets/TimHorton.png";
 import subway from "./assets/subway.png";
@@ -15,16 +16,32 @@ import { collection, getDocs } from "firebase/firestore";
 import { UserOutlined, ReloadOutlined } from "@ant-design/icons";
 import { Avatar, Popover, Modal, Button } from "antd";
 import OrderHistory from "./components/OrderHistory";
+import { createSearchParams,useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const [restaurantModalName, setModalRestaurantName] = useState("");
   const [modalMenuItems, setModalMenuItems] = useState([]);
+  const [menuPrices, setMenuPrices] = useState([]);
+  const [modalFilterRestaurants, setModalFilterRestaurants] = useState([]);
   const [modalCartItems, setModalCartItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [refreshDataState, setRefreshDataState] = useState(false);
   const menuitems = [];
+  const menuprices = [];
+  const filterRestaurants = [];
   let cartitems = [];
+  let itemsprices = [];
   const navigate = useNavigate();
+  //Dictionary Mapping DB Restaurant Names to Image Names
+  const dbDict = {};
+  dbDict["Subway"] = subway;
+  dbDict["McDonald's"] = mcd;
+  dbDict["Salad King"] = saladking;
+  dbDict[" Blaze Pizza"] = blaze; //Extra Space in front is necessary cause it looks like this in the DB for some reason
+  dbDict["Burrito Boyz"] = burritoboyz;
+  dbDict["Spring Sushi"] = springsushi;
+  dbDict["Villa Madina"] = villamadina;
+  dbDict["Tim Hortons"] = timhorton;
 
   async function handleClick(name) {
     setModalRestaurantName(name);
@@ -39,12 +56,14 @@ const HomePage = () => {
         for (let k in menuarray) {
           if (menuarray[k] != "Cuisine" && menuarray[k] != "Delivery Time") {
             menuitems.push(menuarray[k]);
+            menuprices.push(doc.get(menuarray[k]));
           }
         }
       }
     });
 
     setModalMenuItems(menuitems);
+    setMenuPrices(menuprices);
 
     // Get the modal
     var modal = document.getElementById("menuModal");
@@ -71,13 +90,63 @@ const HomePage = () => {
     };
   }
 
+  /**
+   * Retrieves restaurants matching the cusisine and retrieves the modal
+   * @param {*} cuisine
+   */
+  async function handleFilterOnClick(cuisine) {
+    const querySnapshot = await getDocs(collection(db, "restaurants"));
+    querySnapshot.forEach((doc) => {
+      if (doc.data().Cuisine == cuisine) {
+        filterRestaurants.push(doc.id);
+      }
+    });
+    console.log("Restaurants: Array: " + filterRestaurants);
+
+    setModalFilterRestaurants(filterRestaurants);
+
+    // Get the modal
+    var modal = document.getElementById("filterModal");
+
+    // Get the button that opens the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the img, open the modal
+    modal.style.display = "block";
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+      modal.style.display = "none";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+  }
+
+  /**
+   * Closes the filter modal and opens the corresponding restaurant modal
+   * @param {*} restaurant
+   */
+  async function modalRestaurantClick(restaurant) {
+    handleClick(restaurant);
+    var modal = document.getElementById("filterModal");
+    modal.style.display = "none";
+    //<li onClick={() => modalRestaurantClick("Tim Hortons")}>{item}</li> Used for testing
+  }
+
   function addToCart() {
     //clear cartItems
     cartitems = [];
+    itemsprices = [];
     modalMenuItems.forEach((item, index) => {
       let itemCheckbox = document.getElementById("menuItem" + index);
       if (itemCheckbox.checked) {
         cartitems.push(item);
+        itemsprices.push(menuPrices[index])
       }
     });
 
@@ -87,6 +156,15 @@ const HomePage = () => {
     for (let i = 0; i < collection.length; i++) {
       if (collection[i].checked) collection[i].checked = false;
     }
+    navigate({
+      pathname:"/cart",
+      search: createSearchParams({
+        items: cartitems,
+        prices: itemsprices
+      }).toString()
+  
+  });
+
   }
 
   const openProfile = () => {
@@ -164,31 +242,46 @@ const HomePage = () => {
         <div className="navbar">
           <div class="dropdown">
             <button class="dropdown-btn">Filters</button>
-            <div class="dropdown-content">
-              <a href="#">Best Rated</a>
-              <a href="#">Offers</a>
-              <a href="#">Fastest Near Me</a>
-            </div>
           </div>
           <div className="quizbox">
             <span class="span_topleft">Can't Decide?</span>
             <span class="span_center">Take Our Food Quiz! &#x2794;</span>
           </div>
           <div class="categories">
-            <a href="#" class="nav1">
+            <a
+              href="#"
+              class="nav1"
+              onClick={() => handleFilterOnClick("Italian")}
+            >
               Italian
             </a>
-            <a href="#" class="nav2">
-              Chinese
-            </a>
-            <a href="#" class="nav3">
-              Indian
-            </a>
-            <a href="#" class="nav4">
-              Korean
-            </a>
-            <a href="#" class="nav5">
+            <a
+              href="#"
+              class="nav2"
+              onClick={() => handleFilterOnClick("Fast Food")}
+            >
               Fast Food
+            </a>
+            <a
+              href="#"
+              class="nav3"
+              onClick={() => handleFilterOnClick("Japanese")}
+            >
+              Japanese
+            </a>
+            <a
+              href="#"
+              class="nav4"
+              onClick={() => handleFilterOnClick("Mexican")}
+            >
+              Mexican
+            </a>
+            <a
+              href="#"
+              class="nav5"
+              onClick={() => handleFilterOnClick("Middle Eastern")}
+            >
+              Middle Eastern
             </a>
           </div>
         </div>
@@ -281,7 +374,7 @@ const HomePage = () => {
             <li id="carousel__slide5" tabindex="0" class="carousel__slide">
               <div class="carousel__snapper">
                 <img
-                  onClick={() => handleClick("Blaze Pizza ")}
+                  onClick={() => handleClick(" Blaze Pizza")}
                   src={blaze}
                   alt="Blaze Pizza Logo"
                   width="300"
@@ -309,7 +402,7 @@ const HomePage = () => {
                   height="200"
                 />
                 <div class="time_container">
-                  <h3>Estimated Time: 20 min</h3>
+                  <h3>Estimated Time: 5 min</h3>
                 </div>
               </div>
               <a href="#carousel__slide5" class="carousel__prev">
@@ -351,7 +444,7 @@ const HomePage = () => {
                   height="200"
                 />
                 <div class="time_container">
-                  <h3>Estimated Time: 20 min</h3>
+                  <h3>Estimated Time: 10 min</h3>
                 </div>
               </div>
               <a href="#carousel__slide7" class="carousel__prev">
@@ -408,13 +501,35 @@ const HomePage = () => {
           </aside>
         </section>
 
+        <div id="filterModal" class="modal">
+          <div class="filter-content">
+            <span class="close">&times;</span>
+            <h1 id="filter"></h1>
+            Applicable Restaurants
+            <div class="filter-items">
+              {modalFilterRestaurants.map((item, index) => (
+                <div class="filter-img">
+                  <img
+                    onClick={() => modalRestaurantClick(item)}
+                    src={dbDict[item]}
+                    alt="Logo"
+                    width="150"
+                    height="80"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         <div id="menuModal" class="modal">
           <div class="menu-content">
             <span class="close">&times;</span>
             <h1 id="rest-name">{restaurantModalName}</h1>
-            <ul class="menu-items">
+            <div class="menu-items">
               {modalMenuItems.map((item, index) => (
-                <div>
+                <div class="individual-items">
+                  <li class="item-price">{"$".concat(menuPrices[index])}</li>
                   <li>{item}</li>
                   <input
                     id={"menuItem" + index}
@@ -423,8 +538,8 @@ const HomePage = () => {
                   />
                 </div>
               ))}
-            </ul>
-            <button onClick={() => addToCart()}>Add to Cart</button>
+            </div>
+            <button class="add-cart-btn" onClick={() => addToCart() }>Add to Cart</button>
           </div>
         </div>
       </header>
