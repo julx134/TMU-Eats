@@ -585,6 +585,8 @@ const HomePage = () => {
             </button>
           </div>
         </div>
+        <button id ='contactBtn' type="button" onClick={() => navigate('/contact')}>Contact Us</button>
+
       </header>
     </div>
   );
