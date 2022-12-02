@@ -9,6 +9,7 @@ import burritoboyz from "./assets/burritoboyz.png";
 import springsushi from "./assets/springsushi.png";
 import villamadina from "./assets/villamadina.JPG";
 import "./assets/Carousel.css";
+import "./assets/Quiz.css";
 import React, { useState, useEffect } from "react";
 import { db, logout, auth } from "../api/Firebase";
 import { collection, getDocs } from "firebase/firestore";
@@ -28,6 +29,7 @@ const HomePage = () => {
   const menuitems = [];
   const menuprices = [];
   const filterRestaurants = [];
+  const restaurants = [];
   let cartitems = [];
   let itemsprices = [];
   const navigate = useNavigate();
@@ -43,6 +45,13 @@ const HomePage = () => {
   dbDict["Tim Hortons"] = timhorton;
 
   async function handleClick(name) {
+    //Clears checkmarked values if a user clicks out (bug-fix)
+    modalMenuItems.forEach((item, index) => {
+      let itemCheckbox = document.getElementById("menuItem" + index);
+        itemCheckbox.checked = false;
+    });
+
+
     setModalRestaurantName(name);
 
     const querySnapshot = await getDocs(collection(db, "restaurants"));
@@ -90,7 +99,7 @@ const HomePage = () => {
   }
 
   /**
-   * Retrieves restaurants matching the cusisine and retrieves the modal
+   * Retrieves restaurants matching the cuisine and retrieves the modal
    * @param {*} cuisine
    */
   async function handleFilterOnClick(cuisine) {
@@ -135,6 +144,38 @@ const HomePage = () => {
     modal.style.display = "none";
     //<li onClick={() => modalRestaurantClick("Tim Hortons")}>{item}</li> Used for testing
   }
+  
+  /**
+   * Randommly chooses a restaurant for the user
+   */
+  async function randomizer(){
+    const querySnapshot = await getDocs(collection(db, "restaurants"));
+    querySnapshot.forEach((doc) => {
+      if (doc.id != null) {
+        console.log(doc.id);
+        restaurants.push(doc.id);
+      }
+    });
+    console.log('object: %O', restaurants);
+
+    const randomRest = Math.floor(Math.random() * restaurants.length);
+    handleClick(restaurants[randomRest]);
+
+    //Iterates through list of items and selects "random" items up to 2
+    var totalchecked = 0
+    modalMenuItems.forEach((item, index) => {
+      let itemCheckbox = document.getElementById("menuItem" + index);
+      if (getRandomNumberBetween(1,100) > 60 && totalchecked < 2){
+        itemCheckbox.checked = true;
+        totalchecked++;
+      }
+    });
+
+  }
+
+  function getRandomNumberBetween(min,max){
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
 
   function addToCart() {
     //clear cartItems
@@ -236,13 +277,17 @@ const HomePage = () => {
         </Modal>
 
         <div className="navbar">
+
           <div class="dropdown">
             <button class="dropdown-btn">Filters</button>
           </div>
-          <div className="quizbox">
-            <span class="span_topleft">Can't Decide?</span>
-            <span class="span_center">Take Our Food Quiz! &#x2794;</span>
-          </div>
+          <button1>
+            <a href="#"
+              onClick={() => randomizer()}
+            ></a>
+          </button1>
+
+
           <div class="categories">
             <a
               href="#"
