@@ -1,0 +1,56 @@
+.headerWrapper{
+    background-color: #002d72;
+}
+
+.contact{
+    text-align: center;
+    color: white;
+    font-weight: 800;
+    display: inline-block;
+    height: 100px;
+    margin-left: 20%;
+    padding-top: 2%;
+}
+
+.text{
+    font-weight: 800;
+    margin-left: 20%;
+    margin-top: 20%;
+    font-size: x-large;
+
+}
+#homeBtn2{
+    background-color: #002d72;
+    border-color: #002d72;
+    color: white;
+    width: 100%;
+    border-radius: 0;
+    height: 80px;
+    font-weight: 800;
+    position: absolute;
+    font-size: x-large;
+    bottom: 0%;
+    left: 0%;
+  
+  
+  }
+  #homeBtn2:hover{
+    background-color: black;
+  
+  }
+  .textWrapper{
+    display: inline-block;
+    width: 50%;
+  }
+  .slcWrap{
+    display: inline-block;
+  }
+
+  #slcImg{
+    height: 300px;
+    width: 300px;
+    display: inline-block;
+    position: absolute;
+    right: 10%;
+    bottom: 30%;
+  }

@@ -1,14 +1,14 @@
 import "./Cart.css";
-import TMU from "../images/TMU.png";
 import React, { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import { message } from "antd";
+import { useSearchParams, useNavigate} from "react-router-dom";
 import { addOrderHistory } from "../api/Firebase";
 
 const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
 
   //trying something
   const [tipAmount, setTip] = useState(0);
@@ -35,6 +35,8 @@ const Cart = () => {
         searchParams.getAll("restaurant"),
         totalPrice
       );
+      navigate('/home');
+      
     } else {
       alert("Purchase failed :(");
     }
@@ -49,15 +51,14 @@ const Cart = () => {
 
   return (
     <div class="card">
-      <button
-        type="button"
+      <button id ='homeBtn' type="button"
         onClick={(e) => {
           e.preventDefault();
-          window.location.href = "http://localhost:3000/home";
+          navigate('/home');
         }}
       >
         {" "}
-        Homepage
+        Return Home
       </button>
 
       <div>
@@ -113,7 +114,7 @@ const Cart = () => {
               {(
                 totalPrice +
                 5 +
-                (isEmmpty(tipAmount) ? 0.0 : parseFloat(tipAmount))
+                Math.abs((isEmmpty(tipAmount) ? 0.0 : parseFloat(tipAmount)))
               ).toFixed(2)}
             </div>
           </div>

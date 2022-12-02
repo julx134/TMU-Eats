@@ -80,7 +80,7 @@ const HomePage = () => {
     //var restID = document.getElementById("1");
 
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    var span = document.getElementsByClassName("closeMenu")[0];
 
     // When the user clicks the img, open the modal
     modal.style.display = "block";
@@ -565,7 +565,7 @@ const HomePage = () => {
 
         <div id="menuModal" class="modal">
           <div class="menu-content">
-            <span class="close">&times;</span>
+            <span class="closeMenu">&times;</span>
             <h1 id="rest-name">{restaurantModalName}</h1>
             <div class="menu-items">
               {modalMenuItems.map((item, index) => (
@@ -585,6 +585,8 @@ const HomePage = () => {
             </button>
           </div>
         </div>
+        <button id ='contactBtn' type="button" onClick={() => navigate('/contact')}>Contact Us</button>
+
       </header>
     </div>
   );
