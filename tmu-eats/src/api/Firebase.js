@@ -20,12 +20,12 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAYa6kBVdSja_AgTSzVzekC0Pul7u-7NvE",
+  apiKey: API_KEY,
   authDomain: "tmu-eats.firebaseapp.com",
   projectId: "tmu-eats",
   storageBucket: "tmu-eats.appspot.com",
-  messagingSenderId: "875772432483",
-  appId: "1:875772432483:web:f8dea098c129eff6fbe856",
+  messagingSenderId: SENDER_ID,
+  appId: APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
