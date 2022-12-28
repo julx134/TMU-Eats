@@ -69,7 +69,7 @@ const Graphic = () => {
           style={{ marginTop: 40 }}
         >
           <a
-            href="mailto:firstyeareng@ryerson.ca"
+            href=""
             target="_blank"
             rel="noreferrer"
           >
@@ -77,7 +77,7 @@ const Graphic = () => {
           </a>
           |
           <a
-            href="https://www.instagram.com/firstyeareng/?hl=en"
+            href=""
             target="_blank"
             rel="noreferrer"
           >
@@ -85,7 +85,7 @@ const Graphic = () => {
           </a>
           |
           <a
-            href="https://twitter.com/firstyeareng?lang=en"
+            href=""
             target="_blank"
             rel="noreferrer"
           >
@@ -93,7 +93,7 @@ const Graphic = () => {
           </a>
           |
           <a
-            href="https://www.facebook.com/firstyeareng/"
+            href=""
             target="_blank"
             rel="noreferrer"
           >
@@ -101,7 +101,7 @@ const Graphic = () => {
           </a>
           |
           <a
-            href="https://www.youtube.com/channel/UC1Vx71yURzRH3YpOh1uQgng"
+            href=""
             target="_blank"
             rel="noreferrer"
           >
